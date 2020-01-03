@@ -533,5 +533,10 @@ export async function bundleAssetsAsync(projectDir, args) {
       `Error reading the manifest file. Make sure the path '${bundledManifestPath}' is correct.\n\nError: ${ex.message}`
     );
   }
-  await AssetBundle.bundleAsync(null, manifest.bundledAssets, args.dest);
+  let ejectedContext;
+  if (exp.ejectedContext && exp.ejectedContext.published && exp.ejectedContext.published.url){
+    ejectedContext = expo.ejectedContext
+  } 
+
+  await AssetBundle.bundleAsync(ejectedContext, manifest.bundledAssets, args.dest);
 }
